@@ -23,7 +23,7 @@ public class ClienteDAO implements Interface<Cliente> {
             + "nome_cliente,bairro_cliente,rua_cliente,telefone,cep_cliente)"
             + "VALUES (?,?,?,?,?)";
     private String SQLUPDATE = "UPDATE cliente SET "
-            + "nome_cliente = ?, bairro_cliente = ?,rua_cliente =?"
+            + "nome_cliente = ?, bairro_cliente = ?,rua_cliente =?,"
             + "telefone = ?,cep_cliente=? WHERE id_cliente = ?";
     private String SQLDELETE = "DELETE FROM cliente "
             + "WHERE id_cliente = ?";
@@ -79,6 +79,32 @@ public class ClienteDAO implements Interface<Cliente> {
         
     }
     
+    public Cliente  findById(Integer id){
+      Cliente c  = new Cliente();
+        try{
+            String sqlread = "SELECT * FROM cliente where id_cliente = "+id;
+            PreparedStatement p = (PreparedStatement)
+                    new Conexao().getConnection().prepareStatement(sqlread);
+            ResultSet rs = p.executeQuery();
+            while(rs.next()){
+               
+               c.setId_cliente(rs.getInt("id_cliente"));
+               c.setBairro_cliente(rs.getString("bairro_cliente"));
+               c.setCep_cliente(rs.getString("cep_cliente"));
+               c.setNome_cliente(rs.getString("nome_cliente"));
+               c.setRua_cliente(rs.getString("rua_cliente"));
+               c.setTelefone(rs.getString("telefone"));              
+            }
+        }
+        catch(SQLException e ){
+            System.out.println("Erro ao listar os clientes: "+e.getMessage());
+        }
+       
+        return c;
+        
+       
+       
+    }
     
     @Override
     public List<Cliente> read(){

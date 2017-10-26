@@ -19,7 +19,7 @@ public class Desktop extends javax.swing.JFrame {
      */
     public Desktop() {
         initComponents();
-        this.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+        this.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);//Inicializa de forma maximizada
         
     }
 
@@ -46,7 +46,7 @@ public class Desktop extends javax.swing.JFrame {
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 935, Short.MAX_VALUE)
+            .addGap(0, 925, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,7 +93,9 @@ public class Desktop extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jDesktopPane1))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,7 +119,11 @@ public class Desktop extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-            
+   try {  
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {  
+            e.printStackTrace();  
+        }             
         GerenciamentoCliente ger = new GerenciamentoCliente();
         this.jDesktopPane1.add(ger);
         ger.setLocation(this.jDesktopPane1.getSize().width/5, this.jDesktopPane1.getSize().height/5);

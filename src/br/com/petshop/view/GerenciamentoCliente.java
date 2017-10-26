@@ -30,20 +30,29 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
     public GerenciamentoCliente() {
         initComponents();
         this.setResizable(false);
-        
-        
-
-     
-        
+        //Pré configuração da tabela
          DefaultTableModel modelo = (DefaultTableModel) jtableClientes.getModel();
-        jtableClientes.setRowSorter(new TableRowSorter(modelo));
-        carregarTabela();
+         jtableClientes.setRowSorter(new TableRowSorter(modelo));         
+         carregarTabela();
+        // Pré configuração da combobox
+        
+          DefaultComboBoxModel combomodel = (DefaultComboBoxModel) jComboBox1.getModel();
+          combomodel.removeAllElements();
+          combomodel.addElement("nome_cliente");
+          combomodel.addElement("cpf_cliente");
+          combomodel.addElement("rua_cliente");
+          combomodel.addElement("bairro_cliente");          
+          
+          this.jButton4.setEnabled(false);
+          this.jButton3.setEnabled(false);
+          
     }
  
    
   public void carregarTabela(){
     DefaultTableModel modelo = (DefaultTableModel) jtableClientes.getModel();
     ClienteDAO cDao = new ClienteDAO();
+    
     modelo.setNumRows(0);
         for(Cliente c: cDao.read()){
             modelo.addRow(new Object[] {c.getId_cliente(),c.getNome_cliente(),
@@ -77,7 +86,7 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
         bairro_cliente = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        cidade_cliente = new javax.swing.JTextField();
+        cep_cliente = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         telefone = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -123,9 +132,9 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
         getContentPane().add(bairro_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 180, -1));
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 115, -1, -1));
 
-        jLabel9.setText("Cidade");
+        jLabel9.setText("CEP");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 110, -1, -1));
-        getContentPane().add(cidade_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, 220, -1));
+        getContentPane().add(cep_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, 220, -1));
 
         jLabel10.setText("Telefone");
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, -1, -1));
@@ -143,9 +152,20 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 150, 30));
 
         jButton3.setText("Editar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, 150, 30));
 
         jButton4.setText("Excluir");
+        jButton4.setEnabled(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 200, 150, 30));
 
         jLabel11.setText("Pesquisar:");
@@ -174,6 +194,11 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
                 "ID", "NOME", "RUA", "BAIRRO", "CEP", "TELEFONE"
             }
         ));
+        jtableClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtableClientesMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jtableClientes);
         if (jtableClientes.getColumnModel().getColumnCount() > 0) {
             jtableClientes.getColumnModel().getColumn(0).setMinWidth(50);
@@ -201,13 +226,70 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         System.out.println("Teste");
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Integer id = Integer.parseInt(jtableClientes.getValueAt(jtableClientes.getSelectedRow(), 0).toString());
+        ClienteDAO cDao = new ClienteDAO();
+        Cliente c = new Cliente();
+        c.setId_cliente(id);
+        cDao.delete(c);
+        carregarTabela();       
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jtableClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtableClientesMouseClicked
+            this.jButton4.setEnabled(true);
+            
+            this.jButton3.setEnabled(true);
+            
+
+
+    }//GEN-LAST:event_jtableClientesMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+         Integer id = Integer.parseInt(jtableClientes.getValueAt(jtableClientes.getSelectedRow(), 0).toString());
+         ClienteDAO cDao = new ClienteDAO();
+         //Cliente c = new Cliente();
+         System.out.println(id);
+         cDao.findById(id);
+         System.out.println(cDao.findById(id).getNome_cliente());
+                 
+         nome_cliente.setText(cDao.findById(id).getNome_cliente());
+         id_cliente.setText(cDao.findById(id).getId_cliente().toString());
+         rua_cliente.setText(cDao.findById(id).getRua_cliente());
+         bairro_cliente.setText(cDao.findById(id).getBairro_cliente());
+         telefone.setText(cDao.findById(id).getTelefone());
+         cep_cliente.setText(cDao.findById(id).getCep_cliente());
+         
+         
+        
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt){
-    
+        ClienteDAO cDao = new ClienteDAO();
+        Cliente c =new Cliente();
+        c.setNome_cliente(this.nome_cliente.getText());
+        c.setBairro_cliente(this.bairro_cliente.getText());
+        c.setRua_cliente(this.rua_cliente.getText());
+        c.setTelefone(this.telefone.getText());
+        c.setCep_cliente(this.cep_cliente.getText());
+               
+        
+        if(Integer.parseInt(this.id_cliente.getText())>0){
+        c.setId_cliente(Integer.parseInt(this.id_cliente.getText()));
+        cDao.update(c);       
+        }
+        else{        
+        cDao.insert(c);
+        }
+        carregarTabela();
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bairro_cliente;
-    private javax.swing.JTextField cidade_cliente;
+    private javax.swing.JTextField cep_cliente;
     private javax.swing.JTextField cpf_cliente;
     private javax.swing.JTextField email_cliente;
     private javax.swing.Box.Filler filler1;
