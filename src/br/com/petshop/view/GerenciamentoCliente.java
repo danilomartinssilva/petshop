@@ -238,16 +238,16 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jtableClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtableClientesMouseClicked
-            this.jButton4.setEnabled(true);
-            
-            this.jButton3.setEnabled(true);
-            
+            this.jButton4.setEnabled(true);            
+            this.jButton3.setEnabled(true);            
 
 
     }//GEN-LAST:event_jtableClientesMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-         Integer id = Integer.parseInt(jtableClientes.getValueAt(jtableClientes.getSelectedRow(), 0).toString());
+        
+        /*
+        Integer id = Integer.parseInt(jtableClientes.getValueAt(jtableClientes.getSelectedRow(), 0).toString());
          ClienteDAO cDao = new ClienteDAO();
          //Cliente c = new Cliente();
          System.out.println(id);
@@ -260,9 +260,21 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
          bairro_cliente.setText(cDao.findById(id).getBairro_cliente());
          telefone.setText(cDao.findById(id).getTelefone());
          cep_cliente.setText(cDao.findById(id).getCep_cliente());
+         */
+         Integer id = Integer.parseInt(jtableClientes.getValueAt(jtableClientes.getSelectedRow(), 0).toString());
+           ClienteDAO cDao = new ClienteDAO();
+         //Cliente c = new Cliente();
+         System.out.println(id);
+         for (Cliente c :  cDao.findById(id)){
+         nome_cliente.setText(c.getNome_cliente());
+         id_cliente.setText(c.getId_cliente().toString());
+         rua_cliente.setText(c.getRua_cliente());
+         bairro_cliente.setText(c.getBairro_cliente());
+         telefone.setText(c.getTelefone());
+         cep_cliente.setText(c.getCep_cliente());
+         }
          
          
-        
         
     }//GEN-LAST:event_jButton3ActionPerformed
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt){

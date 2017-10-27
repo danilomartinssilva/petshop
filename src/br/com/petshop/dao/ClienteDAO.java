@@ -19,14 +19,16 @@ import java.util.List;
  * @author danilo
  */
 public class ClienteDAO implements Interface<Cliente> {
-    private String SQLINSERT = "INSERT INTO cliente ("
+  final  private String SQLINSERT = "INSERT INTO cliente ("
             + "nome_cliente,bairro_cliente,rua_cliente,telefone,cep_cliente)"
             + "VALUES (?,?,?,?,?)";
-    private String SQLUPDATE = "UPDATE cliente SET "
+   final private String SQLUPDATE = "UPDATE cliente SET "
             + "nome_cliente = ?, bairro_cliente = ?,rua_cliente =?,"
             + "telefone = ?,cep_cliente=? WHERE id_cliente = ?";
-    private String SQLDELETE = "DELETE FROM cliente "
+   final private String SQLDELETE = "DELETE FROM cliente "
             + "WHERE id_cliente = ?";
+    private String SQLQUERY = "SELECT * FROM cliente";
+    
     
     @Override
     public void insert (Cliente c ){
@@ -79,30 +81,12 @@ public class ClienteDAO implements Interface<Cliente> {
         
     }
     
-    public Cliente  findById(Integer id){
-      Cliente c  = new Cliente();
-        try{
-            String sqlread = "SELECT * FROM cliente where id_cliente = "+id;
-            PreparedStatement p = (PreparedStatement)
-                    new Conexao().getConnection().prepareStatement(sqlread);
-            ResultSet rs = p.executeQuery();
-            while(rs.next()){
-               
-               c.setId_cliente(rs.getInt("id_cliente"));
-               c.setBairro_cliente(rs.getString("bairro_cliente"));
-               c.setCep_cliente(rs.getString("cep_cliente"));
-               c.setNome_cliente(rs.getString("nome_cliente"));
-               c.setRua_cliente(rs.getString("rua_cliente"));
-               c.setTelefone(rs.getString("telefone"));              
-            }
-        }
-        catch(SQLException e ){
-            System.out.println("Erro ao listar os clientes: "+e.getMessage());
-        }
-       
-        return c;
+    
+    
+    public List<Cliente> findById(Integer id){
         
-       
+        this.SQLQUERY="SELECT * FROM cliente where cliente.id_cliente = "+id;
+        return read();    
        
     }
     
@@ -110,9 +94,9 @@ public class ClienteDAO implements Interface<Cliente> {
     public List<Cliente> read(){
         List<Cliente> lista = new ArrayList<>();
         try{
-            String sqlread = "SELECT * FROM cliente";
+            
             PreparedStatement p = (PreparedStatement)
-                    new Conexao().getConnection().prepareStatement(sqlread);
+                    new Conexao().getConnection().prepareStatement(this.SQLQUERY);
             ResultSet rs = p.executeQuery();
             while(rs.next()){
                Cliente c  = new Cliente();
@@ -129,9 +113,6 @@ public class ClienteDAO implements Interface<Cliente> {
             System.out.println("Erro ao listar os clientes: "+e.getMessage());
         }
         return lista;
-        
-    
-    
     }
   
 }
