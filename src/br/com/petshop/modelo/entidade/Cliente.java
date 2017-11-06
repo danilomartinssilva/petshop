@@ -9,9 +9,11 @@ package br.com.petshop.modelo.entidade;
  *
  * @author danilo
  */
+
 public class Cliente {
     private Integer id_cliente;
-    private String nome_cliente,bairro_cliente,rua_cliente,cep_cliente,telefone;
+    private String nome_cliente,bairro_cliente,rua_cliente,cep_cliente,telefone,cpf_cliente,email_cliente;
+    
 
     /**
      * @return the id_cliente
@@ -95,5 +97,37 @@ public class Cliente {
      */
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+    public Cliente(){
+    
+    
+    }
+
+    /**
+     * @return the cpf_cliente
+     */
+    public String getCpf_cliente() {
+        return cpf_cliente;
+    }
+
+    /**
+     * @param cpf_cliente the cpf_cliente to set
+     */
+    public void setCpf_cliente(String cpf_cliente) {
+        this.cpf_cliente = cpf_cliente;
+    }
+
+    /**
+     * @return the email_cliente
+     */
+    public String getEmail_cliente() {
+        return email_cliente;
+    }
+
+    /**
+     * @param email_cliente the email_cliente to set
+     */
+    public void setEmail_cliente(String email_cliente) {
+        this.email_cliente = email_cliente;
     }
 }

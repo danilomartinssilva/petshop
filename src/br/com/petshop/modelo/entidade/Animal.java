@@ -43,21 +43,7 @@ public class Animal {
         this.idade_animal = idade_animal;
     }
 
-    /**
-     * @return the iddono_animal
-     */
-    public Integer getIddono_animal() {
-        return iddono_animal;
-    }
-
-    /**
-     * @param iddono_animal the iddono_animal to set
-     */
-    public void setIddono_animal(Integer iddono_animal) {
-        this.iddono_animal = iddono_animal;
-    }
-
-    /**
+   /**
      * @return the nome_animal
      */
     public String getNome_animal() {
@@ -112,8 +98,24 @@ public class Animal {
     public void setSexo_animal(String sexo_animal) {
         this.sexo_animal = sexo_animal;
     }
-    private Integer id_animal,idade_animal,iddono_animal;
+    private Integer id_animal,idade_animal;
     private String nome_animal,raca_animal,especie_animal,sexo_animal;
+    private Cliente cliente;
+
+    /**
+     * @return the cliente
+     */
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    /**
+     * @param cliente the cliente to set
+     */
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+    
     
     
     

@@ -6,7 +6,12 @@
 package br.com.petshop.dao;
 
 import br.com.petshop.modelo.entidade.Animal;
+import br.com.petshop.modelo.entidade.Cliente;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -31,8 +36,15 @@ public class AnimalDAO implements Interface<Animal>{
     @Override
     public void insert (Animal a){
         try{
-        
-        
+            PreparedStatement p = (PreparedStatement) new Conexao().getConnection().prepareStatement(SQLINSERT);
+            p.setInt(1, a.getIdade_animal());
+            p.setInt(2, a.getCliente().getId_cliente());
+            p.setString(3,a.getNome_animal());
+            p.setString(4, a.getRaca_animal());
+            p.setString(5, a.getRaca_animal());
+            p.setString(6, a.getEspecie_animal());
+            p.setString(7, a.getSexo_animal());
+            p.execute();
         }
         catch(SQLException e){
             System.out.println("Erro ao"
@@ -40,6 +52,31 @@ public class AnimalDAO implements Interface<Animal>{
         }
     
     }
+    public List<Animal> read(){
+        List<Animal> lista = new ArrayList<Animal>();
+        
+        try{
+            String sql = "SELECT  * FROM animal";
+            PreparedStatement p = (PreparedStatement) new Conexao().getConnection().prepareStatement(sql);
+            ResultSet rs = p.executeQuery();
+            while(rs.next()){
+                Animal a = new Animal();
+                a.setId_animal(rs.getInt("id_animal"));
+                a.setNome_animal(rs.getString("nome_animal"));
+                //a.setCliente(cliente);
+                
+                
+                
+            }
+            
+        }
+        catch(SQLException e ){
+            System.out.println("Erro ao listar dados do animal "+ e.getMessage());
+        }
+              
+        
+    }
+    
     
     
     

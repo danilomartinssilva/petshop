@@ -20,10 +20,12 @@ import java.util.List;
  */
 public class ClienteDAO implements Interface<Cliente> {
   final  private String SQLINSERT = "INSERT INTO cliente ("
-            + "nome_cliente,bairro_cliente,rua_cliente,telefone,cep_cliente)"
-            + "VALUES (?,?,?,?,?)";
+            + "nome_cliente,bairro_cliente,rua_cliente,telefone,"
+          + "cep_cliente,email_cliente,cpf_cliente)"
+            + "VALUES (?,?,?,?,?,?,?)";
    final private String SQLUPDATE = "UPDATE cliente SET "
-            + "nome_cliente = ?, bairro_cliente = ?,rua_cliente =?,"
+            + "email_cliente = ?, cpf_cliente = ?,nome_cliente = ?,"
+           + " bairro_cliente = ?,rua_cliente =?,"
             + "telefone = ?,cep_cliente=? WHERE id_cliente = ?";
    final private String SQLDELETE = "DELETE FROM cliente "
             + "WHERE id_cliente = ?";
@@ -41,6 +43,8 @@ public class ClienteDAO implements Interface<Cliente> {
         p.setString(4, c.getTelefone());
         
         p.setString(5,c.getCep_cliente());
+        p.setString(6, c.getCpf_cliente());
+        p.setString(7, c.getEmail_cliente());
         
         p.execute();
     }
@@ -52,12 +56,14 @@ public class ClienteDAO implements Interface<Cliente> {
     try{
         PreparedStatement p = (PreparedStatement)
                 new Conexao().getConnection().prepareStatement(SQLUPDATE);
-        p.setString(1, c.getNome_cliente());
-        p.setString(2, c.getBairro_cliente());
-        p.setString(3,c.getRua_cliente());
-        p.setString(4, c.getTelefone());
-        p.setString(5, c.getCep_cliente());
-        p.setInt(6, c.getId_cliente());       
+        p.setString(1, c.getCpf_cliente());
+        p.setString(2, c.getEmail_cliente());
+        p.setString(3, c.getNome_cliente());
+        p.setString(4, c.getBairro_cliente());
+        p.setString(5,c.getRua_cliente());
+        p.setString(6, c.getTelefone());
+        p.setString(7, c.getCep_cliente());
+        p.setInt(8, c.getId_cliente());       
         p.execute();
         
     }
@@ -81,11 +87,19 @@ public class ClienteDAO implements Interface<Cliente> {
         
     }
     
+    public List<Cliente> findBy(String textoProcurado){
+      this.SQLQUERY = "SELECT * FROM cliente"
+              + " where cliente.nome_cliente LIKE '%"+textoProcurado+"%' ";
+        System.out.println(this.SQLQUERY);
+      return read();     
+        
     
+    }
     
     public List<Cliente> findById(Integer id){
         
         this.SQLQUERY="SELECT * FROM cliente where cliente.id_cliente = "+id;
+       
         return read();    
        
     }
@@ -106,6 +120,7 @@ public class ClienteDAO implements Interface<Cliente> {
                c.setNome_cliente(rs.getString("nome_cliente"));
                c.setRua_cliente(rs.getString("rua_cliente"));
                c.setTelefone(rs.getString("telefone"));
+               
                lista.add(c);
             }
         }

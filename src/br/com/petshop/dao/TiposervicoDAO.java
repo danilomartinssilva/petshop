@@ -19,4 +19,8 @@ public class TiposervicoDAO implements Interface<Tiposervico>{
     private String SQLDELETE = "DELETE FROM tiposervico"
             + "WHERE id_tiposervico = ?";
     
+    
+    
+    
+    
 }

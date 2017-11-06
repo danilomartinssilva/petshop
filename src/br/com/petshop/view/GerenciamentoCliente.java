@@ -7,6 +7,7 @@ package br.com.petshop.view;
 
 import br.com.petshop.dao.ClienteDAO;
 import br.com.petshop.modelo.entidade.Cliente;
+import br.com.petshop.util.ValidaCpf;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -36,12 +37,7 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
          carregarTabela();
         // Pré configuração da combobox
         
-          DefaultComboBoxModel combomodel = (DefaultComboBoxModel) jComboBox1.getModel();
-          combomodel.removeAllElements();
-          combomodel.addElement("nome_cliente");
-          combomodel.addElement("cpf_cliente");
-          combomodel.addElement("rua_cliente");
-          combomodel.addElement("bairro_cliente");          
+           
           
           this.jButton4.setEnabled(false);
           this.jButton3.setEnabled(false);
@@ -94,8 +90,7 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        txFiltro = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtableClientes = new javax.swing.JTable();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
@@ -121,6 +116,12 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Cpf:");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+
+        cpf_cliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cpf_clienteActionPerformed(evt);
+            }
+        });
         getContentPane().add(cpf_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 180, -1));
 
         jLabel6.setText("Rua:");
@@ -170,15 +171,13 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
 
         jLabel11.setText("Pesquisar:");
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 130, -1, -1));
-        getContentPane().add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 130, 190, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        txFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                txFiltroActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 130, -1, -1));
+        getContentPane().add(txFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 130, 270, -1));
 
         jScrollPane2.setBorder(null);
         jScrollPane2.setToolTipText("");
@@ -222,10 +221,6 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
            
     }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        System.out.println("Teste");
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         Integer id = Integer.parseInt(jtableClientes.getValueAt(jtableClientes.getSelectedRow(), 0).toString());
@@ -277,6 +272,19 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
          
         
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void cpf_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpf_clienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cpf_clienteActionPerformed
+
+    private void txFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txFiltroActionPerformed
+    
+       String buscaTexto = txFiltro.getText();
+       ClienteDAO cDao = new ClienteDAO();      
+       cDao.findBy(buscaTexto);        
+       carregarTabela();
+      
+    }//GEN-LAST:event_txFiltroActionPerformed
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt){
         ClienteDAO cDao = new ClienteDAO();
         Cliente c =new Cliente();
@@ -285,7 +293,6 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
         c.setRua_cliente(this.rua_cliente.getText());
         c.setTelefone(this.telefone.getText());
         c.setCep_cliente(this.cep_cliente.getText());
-               
         
         if(Integer.parseInt(this.id_cliente.getText())>0){
         c.setId_cliente(Integer.parseInt(this.id_cliente.getText()));
@@ -298,6 +305,8 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
         
         
     }
+    
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bairro_cliente;
@@ -311,7 +320,6 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -324,10 +332,10 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JTable jtableClientes;
     private javax.swing.JTextField nome_cliente;
     private javax.swing.JTextField rua_cliente;
     private javax.swing.JTextField telefone;
+    private javax.swing.JTextField txFiltro;
     // End of variables declaration//GEN-END:variables
 }
