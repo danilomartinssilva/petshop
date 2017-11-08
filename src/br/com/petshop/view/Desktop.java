@@ -5,8 +5,10 @@
  */
 package br.com.petshop.view;
 
+import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import sun.swing.UIAction;
+import java.awt.*;
 
 /**
  *
@@ -20,7 +22,6 @@ public class Desktop extends javax.swing.JFrame {
     public Desktop() {
         initComponents();
         this.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);//Inicializa de forma maximizada
-        
     }
 
     /**
@@ -40,11 +41,15 @@ public class Desktop extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jDesktopPane1.setAlignmentX(0.0F);
+
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 925, Short.MAX_VALUE)
+            .addGap(0, 935, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -91,9 +96,7 @@ public class Desktop extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jDesktopPane1))
+            .addComponent(jDesktopPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,25 +111,24 @@ public class Desktop extends javax.swing.JFrame {
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
        
         
-        
-               
-       
-       
-                
-        
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-  
-        /*try {  
+        /*
+        try {  
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {  
             e.printStackTrace();  
-        } */            
+        }  */           
+        
+        //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+       
         GerenciamentoCliente ger = new GerenciamentoCliente();
         this.jDesktopPane1.add(ger);
+        //this.setDefaultLookAndFeelDecorated(true);
         ger.setLocation(this.jDesktopPane1.getSize().width/5, this.jDesktopPane1.getSize().height/5);
         ger.setVisible(true);    
+        
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -172,7 +174,16 @@ public class Desktop extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                try{
+               UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
                 new Desktop().setVisible(true);
+                
+
+                
             }
         });
     }

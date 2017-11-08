@@ -16,6 +16,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -30,6 +31,12 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
      */
     public GerenciamentoCliente() {
         initComponents();
+         try{
+               UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
         this.setResizable(false);
         //Pré configuração da tabela
          DefaultTableModel modelo = (DefaultTableModel) jtableClientes.getModel();
@@ -104,6 +111,8 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Código:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, -1));
+
+        id_cliente.setEditable(false);
         getContentPane().add(id_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 90, -1));
 
         jLabel3.setText("Nome:");
@@ -293,8 +302,9 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
         c.setRua_cliente(this.rua_cliente.getText());
         c.setTelefone(this.telefone.getText());
         c.setCep_cliente(this.cep_cliente.getText());
-        
-        if(Integer.parseInt(this.id_cliente.getText())>0){
+        /*
+     
+        if(c.getId_cliente()>0){
         c.setId_cliente(Integer.parseInt(this.id_cliente.getText()));
         cDao.update(c);       
         }
@@ -302,6 +312,9 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
         cDao.insert(c);
         }
         carregarTabela();
+        
+        */
+        System.out.println(Integer.parseInt(c.getId_cliente().toString()));
         
         
     }
