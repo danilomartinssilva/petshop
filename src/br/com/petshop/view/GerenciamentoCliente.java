@@ -31,39 +31,34 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
      */
     public GerenciamentoCliente() {
         initComponents();
-         try{
-               UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch(Exception e){
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
             e.printStackTrace();
         }
         this.setResizable(false);
         //Pré configuração da tabela
-         DefaultTableModel modelo = (DefaultTableModel) jtableClientes.getModel();
-         jtableClientes.setRowSorter(new TableRowSorter(modelo));         
-         carregarTabela();
+        DefaultTableModel modelo = (DefaultTableModel) jtableClientes.getModel();
+        jtableClientes.setRowSorter(new TableRowSorter(modelo));        
+        carregarTabela();
         // Pré configuração da combobox
         
-           
-          
-          this.jButton4.setEnabled(false);
-          this.jButton3.setEnabled(false);
-          
+        this.jButton4.setEnabled(false);
+        this.jButton3.setEnabled(false);
+        
     }
- 
-   
-  public void carregarTabela(){
-    DefaultTableModel modelo = (DefaultTableModel) jtableClientes.getModel();
-    ClienteDAO cDao = new ClienteDAO();
     
-    modelo.setNumRows(0);
-        for(Cliente c: cDao.read()){
-            modelo.addRow(new Object[] {c.getId_cliente(),c.getNome_cliente(),
-                c.getBairro_cliente(),c.getRua_cliente()});
+    public void carregarTabela() {
+        DefaultTableModel modelo = (DefaultTableModel) jtableClientes.getModel();
+        ClienteDAO cDao = new ClienteDAO();
+        
+        modelo.setNumRows(0);
+        for (Cliente c : cDao.read()) {
+            modelo.addRow(new Object[]{c.getId_cliente(), c.getNome_cliente(),
+                c.getBairro_cliente(), c.getRua_cliente()});
         }
-
+        
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -104,7 +99,6 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
         jButton5 = new javax.swing.JButton();
 
         setClosable(true);
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 400));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 11, -1, -1));
@@ -159,6 +153,11 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 150, 30));
 
         jButton2.setText("Limpar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 150, 30));
 
         jButton3.setText("Editar");
@@ -228,7 +227,7 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-           
+        this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -237,19 +236,19 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
         Cliente c = new Cliente();
         c.setId_cliente(id);
         cDao.delete(c);
-        carregarTabela();       
+        carregarTabela();        
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jtableClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtableClientesMouseClicked
-            this.jButton4.setEnabled(true);            
-            this.jButton3.setEnabled(true);            
-
+        this.jButton4.setEnabled(true);        
+        this.jButton3.setEnabled(true);        
+        
 
     }//GEN-LAST:event_jtableClientesMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+
         /*
         Integer id = Integer.parseInt(jtableClientes.getValueAt(jtableClientes.getSelectedRow(), 0).toString());
          ClienteDAO cDao = new ClienteDAO();
@@ -265,21 +264,22 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
          telefone.setText(cDao.findById(id).getTelefone());
          cep_cliente.setText(cDao.findById(id).getCep_cliente());
          */
-         Integer id = Integer.parseInt(jtableClientes.getValueAt(jtableClientes.getSelectedRow(), 0).toString());
-           ClienteDAO cDao = new ClienteDAO();
-         //Cliente c = new Cliente();
-         System.out.println(id);
-         for (Cliente c :  cDao.findById(id)){
-         nome_cliente.setText(c.getNome_cliente());
-         id_cliente.setText(c.getId_cliente().toString());
-         rua_cliente.setText(c.getRua_cliente());
-         bairro_cliente.setText(c.getBairro_cliente());
-         telefone.setText(c.getTelefone());
-         cep_cliente.setText(c.getCep_cliente());
-         }
-         
-         
+        Integer id = Integer.parseInt(jtableClientes.getValueAt(jtableClientes.getSelectedRow(), 0).toString());
+        ClienteDAO cDao = new ClienteDAO();
+        //Cliente c = new Cliente();
+        System.out.println(id);
+        for (Cliente c : cDao.findById(id)) {
+            nome_cliente.setText(c.getNome_cliente());
+            id_cliente.setText(c.getId_cliente().toString());
+            rua_cliente.setText(c.getRua_cliente());
+            bairro_cliente.setText(c.getBairro_cliente());
+            telefone.setText(c.getTelefone());
+            cep_cliente.setText(c.getCep_cliente());
+            cpf_cliente.setText(c.getCpf_cliente());
+            email_cliente.setText(c.getEmail_cliente());
+        }
         
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void cpf_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpf_clienteActionPerformed
@@ -287,39 +287,50 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cpf_clienteActionPerformed
 
     private void txFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txFiltroActionPerformed
-    
-       String buscaTexto = txFiltro.getText();
-       ClienteDAO cDao = new ClienteDAO();      
-       cDao.findBy(buscaTexto);        
-       carregarTabela();
-      
+        
+        String buscaTexto = txFiltro.getText();
+        ClienteDAO cDao = new ClienteDAO();        
+        cDao.findBy(buscaTexto);        
+        carregarTabela();
+        
     }//GEN-LAST:event_txFiltroActionPerformed
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt){
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.nome_cliente.setText("");
+        this.id_cliente.setText("");
+        this.email_cliente.setText("");
+        this.rua_cliente.setText("");
+        this.bairro_cliente.setText("");
+        this.telefone.setText("");
+        this.cpf_cliente.setText("");
+    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         ClienteDAO cDao = new ClienteDAO();
-        Cliente c =new Cliente();
+        Cliente c = new Cliente();
         c.setNome_cliente(this.nome_cliente.getText());
         c.setBairro_cliente(this.bairro_cliente.getText());
         c.setRua_cliente(this.rua_cliente.getText());
         c.setTelefone(this.telefone.getText());
         c.setCep_cliente(this.cep_cliente.getText());
-        /*
-     
-        if(c.getId_cliente()>0){
-        c.setId_cliente(Integer.parseInt(this.id_cliente.getText()));
-        cDao.update(c);       
+        c.setEmail_cliente(this.email_cliente.getText());
+        //c.setCpf_cliente(this.cpf_cliente.getText());
+        ValidaCpf v = new ValidaCpf();
+        if (v.isCPF(this.cpf_cliente.getText())) {
+            c.setCpf_cliente(this.cpf_cliente.getText());
+            if (this.id_cliente.getText().toString().equals("")
+                    || this.id_cliente.getText().equals(null)) {
+                cDao.insert(c);
+            } else {
+                c.setId_cliente(Integer.parseInt(this.id_cliente.getText()));
+                cDao.update(c);
+            }
+            carregarTabela();
+        } else {
+            JOptionPane.showMessageDialog(null, "CPF inválido, tente novamente! ");
         }
-        else{        
-        cDao.insert(c);
-        }
-        carregarTabela();
-        
-        */
-        System.out.println(Integer.parseInt(c.getId_cliente().toString()));
-        
         
     }
-    
- 
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bairro_cliente;

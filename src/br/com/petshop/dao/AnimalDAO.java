@@ -61,9 +61,13 @@ public class AnimalDAO implements Interface<Animal>{
             ResultSet rs = p.executeQuery();
             while(rs.next()){
                 Animal a = new Animal();
+                Cliente c = new Cliente();
+                c.setId_cliente(rs.getInt("iddono_cliente"));
+                
                 a.setId_animal(rs.getInt("id_animal"));
                 a.setNome_animal(rs.getString("nome_animal"));
-                //a.setCliente(cliente);
+                a.setCliente(c);
+                
                 
                 
                 
@@ -74,7 +78,7 @@ public class AnimalDAO implements Interface<Animal>{
             System.out.println("Erro ao listar dados do animal "+ e.getMessage());
         }
               
-        
+        return lista;
     }
     
     

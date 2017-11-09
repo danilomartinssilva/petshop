@@ -24,7 +24,7 @@ public class ClienteDAO implements Interface<Cliente> {
           + "cep_cliente,email_cliente,cpf_cliente)"
             + "VALUES (?,?,?,?,?,?,?)";
    final private String SQLUPDATE = "UPDATE cliente SET "
-            + "email_cliente = ?, cpf_cliente = ?,nome_cliente = ?,"
+            + "cpf_cliente = ?, email_cliente = ?,nome_cliente = ?,"
            + " bairro_cliente = ?,rua_cliente =?,"
             + "telefone = ?,cep_cliente=? WHERE id_cliente = ?";
    final private String SQLDELETE = "DELETE FROM cliente "
@@ -43,8 +43,8 @@ public class ClienteDAO implements Interface<Cliente> {
         p.setString(4, c.getTelefone());
         
         p.setString(5,c.getCep_cliente());
-        p.setString(6, c.getCpf_cliente());
-        p.setString(7, c.getEmail_cliente());
+        p.setString(6, c.getEmail_cliente());
+        p.setString(7, c.getCpf_cliente());
         
         p.execute();
     }
@@ -120,7 +120,8 @@ public class ClienteDAO implements Interface<Cliente> {
                c.setNome_cliente(rs.getString("nome_cliente"));
                c.setRua_cliente(rs.getString("rua_cliente"));
                c.setTelefone(rs.getString("telefone"));
-               
+               c.setCpf_cliente(rs.getString("cpf_cliente"));
+               c.setEmail_cliente(rs.getString("email_cliente"));
                lista.add(c);
             }
         }

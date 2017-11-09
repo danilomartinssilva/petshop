@@ -10,10 +10,10 @@ package br.com.petshop.modelo.entidade;
  * @author danilo
  */
 public class Servico {
-    private Integer id_servico,id_animal,id_tiposervico,status;
+    private Integer id_servico,id_animal,status;
     private Double custo_servico,preco_servico;
     private String horario_servico,data_servico,nome_servico;
-
+    private Tiposervico tiposervico;
     /**
      * @return the id_servico
      */
@@ -42,20 +42,7 @@ public class Servico {
         this.id_animal = id_animal;
     }
 
-    /**
-     * @return the id_tiposervico
-     */
-    public Integer getId_tiposervico() {
-        return id_tiposervico;
-    }
-
-    /**
-     * @param id_tiposervico the id_tiposervico to set
-     */
-    public void setId_tiposervico(Integer id_tiposervico) {
-        this.id_tiposervico = id_tiposervico;
-    }
-
+   
     /**
      * @return the custo_servico
      */
@@ -138,5 +125,19 @@ public class Servico {
      */
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    /**
+     * @return the tiposervico
+     */
+    public Tiposervico getTiposervico() {
+        return tiposervico;
+    }
+
+    /**
+     * @param tiposervico the tiposervico to set
+     */
+    public void setTiposervico(Tiposervico tiposervico) {
+        this.tiposervico = tiposervico;
     }
 }
