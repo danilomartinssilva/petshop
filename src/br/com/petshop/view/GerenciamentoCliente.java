@@ -236,7 +236,8 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
         Cliente c = new Cliente();
         c.setId_cliente(id);
         cDao.delete(c);
-        carregarTabela();        
+        carregarTabela();
+        limparFormulario();
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -294,15 +295,17 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
         carregarTabela();
         
     }//GEN-LAST:event_txFiltroActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.nome_cliente.setText("");
+    public void limparFormulario(){
+         this.nome_cliente.setText("");
         this.id_cliente.setText("");
         this.email_cliente.setText("");
         this.rua_cliente.setText("");
         this.bairro_cliente.setText("");
         this.telefone.setText("");
         this.cpf_cliente.setText("");
+    }    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       limparFormulario();
     }//GEN-LAST:event_jButton2ActionPerformed
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         ClienteDAO cDao = new ClienteDAO();
@@ -325,6 +328,7 @@ public class GerenciamentoCliente extends javax.swing.JInternalFrame {
                 cDao.update(c);
             }
             carregarTabela();
+            limparFormulario();
         } else {
             JOptionPane.showMessageDialog(null, "CPF inválido, tente novamente! ");
         }

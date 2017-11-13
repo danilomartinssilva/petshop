@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 //    private Integer id_cliente;
     //private String nome_cliente,bairro_cliente,rua_cliente,cep_cliente,telefone;
 /**
@@ -82,7 +83,8 @@ public class ClienteDAO implements Interface<Cliente> {
             p.execute();
         }
         catch(SQLException e){
-            System.out.println("Erro ao excluir cliente: "+ e.getMessage());
+            
+            JOptionPane.showMessageDialog(null,"Erro ao excluir cliente: "+ e.getMessage());
         }
         
     }
