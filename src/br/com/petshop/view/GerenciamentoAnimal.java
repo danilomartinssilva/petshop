@@ -5,7 +5,17 @@
  */
 package br.com.petshop.view;
 
+import br.com.petshop.dao.AnimalDAO;
+import br.com.petshop.dao.ClienteDAO;
+import br.com.petshop.modelo.entidade.Animal;
+import br.com.petshop.modelo.entidade.Cliente;
+import java.util.Arrays;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -17,13 +27,57 @@ public class GerenciamentoAnimal extends javax.swing.JInternalFrame {
      * Creates new form GerenciamentoAnimal
      */
     public GerenciamentoAnimal() {
+        
         initComponents();
          try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        carregarConfiguracoesCombo();
+        carregarConfiguracoesTabela();
+        jButton3.setEnabled(false);
+        jButton4.setEnabled(false);
+        
+         
+        
     }
+    public void carregarConfiguracoesTabela(){
+        DefaultTableModel modelo = (DefaultTableModel) jTableAnimais.getModel();
+         jTableAnimais.setRowSorter(new TableRowSorter(modelo));
+         carregarTabela();
+         
+    }
+    public void carregarTabela(){
+        DefaultTableModel modelo = (DefaultTableModel) jTableAnimais.getModel();
+        AnimalDAO aDao = new AnimalDAO();
+        modelo.setNumRows(0);
+        for(Animal a: aDao.read()){
+            modelo.addRow(new Object[]{a.getId_animal(),a.getNome_animal(),a.getEspecie_animal(),a.getRaca_animal()});
+        }
+    }
+    public void carregarConfiguracoesCombo(){
+          
+        DefaultComboBoxModel comboDono = (DefaultComboBoxModel) iddono_animal.getModel();        
+        carregarComboDono();
+        DefaultComboBoxModel comboSexo = (DefaultComboBoxModel) sexo_animal.getModel();
+        comboSexo.addElement("Macho");
+        comboSexo.addElement("Fêmea");
+       
+    }
+    public void carregarComboDono(){
+         ClienteDAO cDao = new ClienteDAO();
+         DefaultComboBoxModel comboDono = (DefaultComboBoxModel) iddono_animal.getModel();
+         //combo.removeAllElements();
+         //combo.addElement("Selecione um dono-0");
+        //Cliente c = new Cliente();
+        for(Cliente c:cDao.read()){
+            comboDono.addElement(c.getNome_cliente()+'-'+c.getId_cliente());// USUARIO-ID
+        }
+        
+    
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,9 +109,9 @@ public class GerenciamentoAnimal extends javax.swing.JInternalFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        sexo_animal = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableAnimais = new javax.swing.JTable();
 
         setClosable(true);
         setPreferredSize(new java.awt.Dimension(530, 600));
@@ -70,13 +124,15 @@ public class GerenciamentoAnimal extends javax.swing.JInternalFrame {
         jLabel2.setText("Dono");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, -1, -1));
 
-        iddono_animal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        iddono_animal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                iddono_animalActionPerformed(evt);
+            }
+        });
         getContentPane().add(iddono_animal, new org.netbeans.lib.awtextra.AbsoluteConstraints(262, 78, 200, -1));
 
         jLabel3.setText("Raça");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 104, -1, -1));
-
-        raca_animal.setText("jTextField2");
         getContentPane().add(raca_animal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 124, 179, -1));
 
         jLabel4.setText("Espécie");
@@ -85,9 +141,7 @@ public class GerenciamentoAnimal extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Código");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
-
-        codigo_animal.setText("codigo_animal");
-        getContentPane().add(codigo_animal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 32, -1, -1));
+        getContentPane().add(codigo_animal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 32, 40, -1));
 
         jLabel6.setText("Idade");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
@@ -105,15 +159,30 @@ public class GerenciamentoAnimal extends javax.swing.JInternalFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 226, 474, -1));
 
         jButton1.setText("Salvar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, -1, -1));
 
         jButton2.setText("Limpar");
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 340, -1, -1));
 
         jButton3.setText("Editar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, 340, -1, -1));
 
         jButton4.setText("Excluir");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(321, 340, -1, -1));
 
         jButton5.setText("Sair");
@@ -122,13 +191,17 @@ public class GerenciamentoAnimal extends javax.swing.JInternalFrame {
         jLabel8.setText("Sexo");
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 150, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 170, 201, -1));
+        sexo_animal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sexo_animalActionPerformed(evt);
+            }
+        });
+        getContentPane().add(sexo_animal, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 170, 201, -1));
 
         jScrollPane2.setBorder(null);
 
-        jTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableAnimais.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTableAnimais.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -139,12 +212,116 @@ public class GerenciamentoAnimal extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jTableAnimais.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableAnimaisMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTableAnimais);
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 381, 480, 156));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void iddono_animalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iddono_animalActionPerformed
+      /*  
+        String registroClicado =  iddono_animal.getSelectedItem().toString();
+        String registros[] = registroClicado.split("-");
+        Animal a = new Animal();
+        Cliente c = new Cliente();
+        c.setId_cliente(Integer.parseInt(registros[1]));//Inserindo ID do cliente 
+        a.setCliente(c);
+        System.out.println(a.getCliente().getId_cliente());
+        */
+        
+        
+        
+        
+    }//GEN-LAST:event_iddono_animalActionPerformed
+
+    public boolean validacaoCampos(){
+        if(this.nome_animal.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Preencha o campo nome!");
+            this.nome_animal.requestFocus();
+            return false;
+        }
+        else if(this.raca_animal.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Preencha o campo raça do animal!");           
+            this.raca_animal.requestFocus();
+            return false;
+        }
+        else if(this.idade_animal.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Preencha o campo idade do animal!");           
+            this.idade_animal.requestFocus();
+            return false;
+        }
+        else if(this.especie_animal.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Preencha o campo espécie do animal!");           
+            this.especie_animal.requestFocus();
+            return false;
+        }
+        else{
+            return true;
+        }
+    }    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+            
+        if(validacaoCampos()){
+            //JOptionPane.showInputDialog(null,"OK pode prosseguir");
+            Animal a  = new Animal();
+            AnimalDAO aDao = new AnimalDAO();
+            a.setNome_animal(this.nome_animal.getText());
+            a.setRaca_animal(this.raca_animal.getText());
+            a.setIdade_animal(Integer.parseInt(this.idade_animal.getText()));
+            a.setEspecie_animal(this.especie_animal.getText());
+            String sexoanimal = (String)this.sexo_animal.getSelectedItem();
+            //Id Dono Selecionado
+            String registroClicado =  iddono_animal.getSelectedItem().toString();
+            String registros[] = registroClicado.split("-");
+            //Animal a = new Animal();
+            Cliente c = new Cliente();
+            c.setId_cliente(Integer.parseInt(registros[1]));//Inserindo ID do cliente 
+            a.setCliente(c);
+            a.setSexo_animal(sexoanimal.substring(0,1));
+            aDao.insert(a);
+            this.carregarTabela();
+            //Final            
+            //c.setId_cliente(this.iddono_animal.get'');            
+            //System.out.println(a.setSexo_animal(sexoanimal.substring(0)));
+            //System.out.println(sexoanimal.substring(0, 1));
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void sexo_animalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexo_animalActionPerformed
+       
+        
+        
+    }//GEN-LAST:event_sexo_animalActionPerformed
+
+    private void jTableAnimaisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAnimaisMouseClicked
+        jButton3.setEnabled(true);
+        jButton4.setEnabled(true);
+    }//GEN-LAST:event_jTableAnimaisMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       
+        
+        
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        
+         AnimalDAO aDao = new AnimalDAO();
+         Integer id = Integer.parseInt(jTableAnimais.getValueAt(jTableAnimais.getSelectedRow(), 0).toString());
+         Animal a = new Animal();
+         a.setId_animal(id);
+         aDao.delete(a);
+         this.carregarTabela();
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -157,7 +334,6 @@ public class GerenciamentoAnimal extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -168,9 +344,10 @@ public class GerenciamentoAnimal extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableAnimais;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField nome_animal;
     private javax.swing.JTextField raca_animal;
+    private javax.swing.JComboBox<String> sexo_animal;
     // End of variables declaration//GEN-END:variables
 }

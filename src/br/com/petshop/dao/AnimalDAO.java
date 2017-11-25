@@ -6,7 +6,6 @@
 package br.com.petshop.dao;
 
 import br.com.petshop.modelo.entidade.Animal;
-import br.com.petshop.modelo.entidade.Cliente;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,7 +28,7 @@ public class AnimalDAO implements Interface<Animal>{
             + "especie_animal=?"
             + "sexo_animal=? WHERE id_animal = ?";
     private String SQLDELETE = "DELETE FROM animal WHERE"
-            + "id_animal = ?";
+            + " id_animal = ?";
     
     
     
@@ -39,11 +38,10 @@ public class AnimalDAO implements Interface<Animal>{
             PreparedStatement p = (PreparedStatement) new Conexao().getConnection().prepareStatement(SQLINSERT);
             p.setInt(1, a.getIdade_animal());
             p.setInt(2, a.getCliente().getId_cliente());
-            p.setString(3,a.getNome_animal());
+            p.setString(3, a.getNome_animal());
             p.setString(4, a.getRaca_animal());
-            p.setString(5, a.getRaca_animal());
-            p.setString(6, a.getEspecie_animal());
-            p.setString(7, a.getSexo_animal());
+            p.setString(5, a.getEspecie_animal());
+            p.setString(6, a.getSexo_animal());
             p.execute();
         }
         catch(SQLException e){
@@ -52,35 +50,55 @@ public class AnimalDAO implements Interface<Animal>{
         }
     
     }
-    public List<Animal> read(){
+    @Override
+    public List<Animal> read (){
         List<Animal> lista = new ArrayList<Animal>();
-        
         try{
-            String sql = "SELECT  * FROM animal";
-            PreparedStatement p = (PreparedStatement) new Conexao().getConnection().prepareStatement(sql);
+            String sql_consulta = "SELECT  * FROM animal";
+            PreparedStatement p = (PreparedStatement) new Conexao().getConnection().prepareCall(sql_consulta);
             ResultSet rs = p.executeQuery();
-            while(rs.next()){
-                Animal a = new Animal();
-                Cliente c = new Cliente();
-                c.setId_cliente(rs.getInt("iddono_cliente"));
-                
-                a.setId_animal(rs.getInt("id_animal"));
-                a.setNome_animal(rs.getString("nome_animal"));
-                a.setCliente(c);
-                
-                
-                
-                
-            }
-            
+           while(rs.next()){
+            Animal a  = new Animal();
+            a.setId_animal(rs.getInt("id_animal"));
+            a.setNome_animal(rs.getString("nome_animal"));
+            a.setRaca_animal(rs.getString("raca_animal"));
+            a.setSexo_animal(rs.getString("sexo_animal"));
+            a.setIdade_animal(rs.getInt("idade_animal"));
+            a.setEspecie_animal(rs.getString("especie_animal"));
+            lista.add(a);
+           }
         }
-        catch(SQLException e ){
-            System.out.println("Erro ao listar dados do animal "+ e.getMessage());
+        catch(SQLException e){
+            System.out.println("Erro ao retornar os animais cadastrados");
         }
-              
         return lista;
+        
     }
     
+    @Override
+    public void delete(Animal a){
+        try{
+           PreparedStatement p = (PreparedStatement) new Conexao().getConnection().prepareStatement(SQLDELETE);
+           p.setInt(1, a.getId_animal());
+           p.execute();
+        }
+        catch(SQLException e){
+            System.out.println("Erro ao excluir animal! "+e.getMessage());
+        }
+    }
+    @Override
+    public void update(Animal a){
+        try{
+            PreparedStatement p = (PreparedStatement)
+                    new Conexao().getConnection().prepareStatement(SQLUPDATE);
+            p.execute();
+        }
+        catch(SQLException e){
+            System.out.println("Erro ao"
+                    + " alterar informações do animal: "+e.getMessage());
+        }
+        
+    }
     
     
     
